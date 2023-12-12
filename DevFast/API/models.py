@@ -24,7 +24,7 @@ def get_progress_image_path(instance, filename):
     return os.path.join(f'costumer-{instance.costumer.id}', f'prog-{instance.id}', str(filename))
 
 class Progress(models.Model):
-    costumer = models.ForeignKey(Costumer, null=True, on_delete=models.SET_NULL)
+    costumer = models.ForeignKey(Costumer, null=True, on_delete=models.SET_NULL,related_name='customer')
     img = models.ImageField(upload_to=get_progress_image_path, null=True, blank=True)
     date = models.DateTimeField(default=timezone.now,null=True, blank=True)
     description = models.TextField(null=True,blank=True)
