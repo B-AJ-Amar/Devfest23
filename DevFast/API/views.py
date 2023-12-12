@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from .models import *
-from .serializers import ProgressSerializer , DataResSerializer
+from .serializers import ProgressSerializer , PeymentSerializer, DataReqSerializer , DataResSerializer
 from rest_framework import status
 
 
@@ -28,6 +28,27 @@ class GetTheProgress(APIView):
             serializer = ProgressSerializer(objects, many=True)
             serialized_data = serializer.data
             return Response({'progress': serialized_data})
+        else:
+            return Response({'error': 'User not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
+
+
+
+
+class GetTheReq(APIView): 
+    authentication_classes = [TokenAuthentication,SessionAuthentication]
+    permission_classes = [IsAuthenticated] 
+    def get(self, request ):
+        if request.user.is_authenticated:
+            try:
+                costumer_id = Costumer.objects.get(user=request.user).id
+            except Exception as e:
+                print("ProgressView error : ",e)
+                return Response({'error': "not found"},status=404)
+                
+            objects = DataReq.objects.filter(costumer=costumer_id)
+            serializer = DataReqSerializer(objects, many=True)
+            serialized_data = serializer.data
+            return Response({'date': serialized_data})
         else:
             return Response({'error': 'User not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
 
@@ -57,12 +78,13 @@ class GetPymentDate(APIView):
                 print("ProgressView error : ",e)
                 return Response({'error': "not found"},status=404)
                 
-            objects = Progress.objects.filter(costumer=costumer_id)
+            objects = Peyment.objects.filter(costumer=costumer_id)
             serializer = PeymentSerializer(objects, many=True)
             serialized_data = serializer.data
             return Response({'date': serialized_data})
         else:
             return Response({'error': 'User not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
+
 
 
 
