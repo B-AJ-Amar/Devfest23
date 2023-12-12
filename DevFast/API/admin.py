@@ -10,7 +10,7 @@ class CostumerAdmin(admin.ModelAdmin):
 admin.site.register(Costumer, CostumerAdmin)
 # =====================================================================
 class ProgressAdmin(admin.ModelAdmin):
-   list_display = ("costumer", "img","date", "description")
+   list_display = ("costumer", "url","date", "description")
  
 admin.site.register(Progress,ProgressAdmin)
 # =====================================================================

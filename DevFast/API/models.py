@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 import os
 from django.utils import timezone
+from PIL import Image
+import os,shutil
 # from time import time.time
 
 # Create your models here.
@@ -25,7 +27,7 @@ def get_progress_image_path(instance, filename):
 
 class Progress(models.Model):
     costumer = models.ForeignKey(Costumer, null=True, on_delete=models.SET_NULL,related_name='customer')
-    img = models.ImageField(upload_to=get_progress_image_path, null=True, blank=True)
+    url = models.ImageField(upload_to=get_progress_image_path, null=True, blank=True)
     date = models.DateTimeField(default=timezone.now,null=True, blank=True)
     description = models.TextField(null=True,blank=True)
     
