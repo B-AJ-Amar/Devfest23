@@ -9,6 +9,7 @@ class CostumerSerializer(serializers.ModelSerializer):
 
 
 class ProgressSerializer(serializers.ModelSerializer):
+    date = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
     class Meta:
         model = Progress 
         fields = "__all__"
