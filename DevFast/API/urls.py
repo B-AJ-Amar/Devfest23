@@ -21,4 +21,5 @@ urlpatterns = [
     path('', hello.as_view()),
     path('progress/', GetTheProgress.as_view()),
     path('SendFile/', SendFile.as_view()),
+    path('GetPymentDate/', SendFile.as_view()),
 ]
