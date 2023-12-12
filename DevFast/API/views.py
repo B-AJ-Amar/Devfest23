@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from .models import *
-from .serializers import ProgressSerializer , DataResSerializer
+from .serializers import ProgressSerializer , DataResSerializer,PeymentSerializer
 from rest_framework import status
 
 
@@ -13,6 +13,21 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import SessionAuthentication,BasicAuthentication,TokenAuthentication
 from rest_framework.decorators import authentication_classes,permission_classes
 
+
+class PeymentView(ListAPIView):
+    # ? hna njim nahtaj (aka rewy ta3 lwra9i)
+    authentication_classes = [TokenAuthentication,SessionAuthentication]
+    permission_classes = [IsAuthenticated] 
+    serializer_class = PeymentSerializer
+    def get_queryset(self):
+        try:
+            costumer_id = Costumer.objects.get(user=self.request.user).id
+        except Exception as e:
+            print("ProgressView error : ",e)
+            return Response({'error': "not found"},status=404)
+            
+        objects = Peyment.objects.filter(costumer=costumer_id)
+        return objects
 class GetTheProgress(APIView):
     # ? tsawer ta3 dare bah sayed yefrah b darou 
     authentication_classes = [TokenAuthentication,SessionAuthentication]
@@ -47,7 +62,7 @@ class GetTheReq(APIView):
                 return Response({'error': "not found"},status=404)
                 
             objects = DataReq.objects.filter(costumer=costumer_id , is_paid=False)
-            serializer = DataReqSerializer(objects, many=True)
+            serializer = DataResSerializer(objects, many=True)
             serialized_data = serializer.data
             return Response({'date': serialized_data})
         else:
