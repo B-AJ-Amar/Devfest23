@@ -13,21 +13,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import SessionAuthentication,BasicAuthentication,TokenAuthentication
 from rest_framework.decorators import authentication_classes,permission_classes
 
-
-class PeymentView(ListAPIView):
-    # ? hna njim nahtaj (aka rewy ta3 lwra9i)
-    authentication_classes = [TokenAuthentication,SessionAuthentication]
-    permission_classes = [IsAuthenticated] 
-    serializer_class = PeymentSerializer
-    def get_queryset(self):
-        try:
-            costumer_id = Costumer.objects.get(user=self.request.user).id
-        except Exception as e:
-            print("ProgressView error : ",e)
-            return Response({'error': "not found"},status=404)
-            
-        objects = Peyment.objects.filter(costumer=costumer_id)
-        return objects
 class GetTheProgress(APIView):
     # ? tsawer ta3 dare bah sayed yefrah b darou 
     authentication_classes = [TokenAuthentication,SessionAuthentication]
@@ -104,6 +89,7 @@ class GetPymentDate(APIView):
             return Response({'data': serialized_data})
         else:
             return Response({'error': 'User not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
+
 
  
 class hello(APIView):
