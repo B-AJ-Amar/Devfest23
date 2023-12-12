@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-)eh%ojh3sc4=#g%@fduz16*m8)6#s7czu-4b)a(daim-vw@@(6
 DEBUG = True
 
 ALLOWED_HOSTS = ['192.168.43.80','127.0.0.1','localhost']
-
+base_url = "http://192.168.43.80:8000"
 
 # Application definition
 
