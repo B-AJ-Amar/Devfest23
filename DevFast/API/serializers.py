@@ -1,4 +1,4 @@
-from .models import Profile , Costumer , Progress  , Peyment , DataReq ,  Notification , DataRes
+from .models import  Costumer , Progress  , Peyment , DataReq ,  Notification , DataRes
 from rest_framework import serializers
  
 
@@ -12,7 +12,6 @@ class ProgressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Progress 
         fields = "__all__"
-
 
 class PeymentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -28,7 +27,6 @@ class DataReqSerializer(serializers.ModelSerializer):
     class Meta: 
         model = DataReq 
         fields = "__all__"
-
 
 class DataResSerializer(serializers.ModelSerializer):
     class Meta: 
