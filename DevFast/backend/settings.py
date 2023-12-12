@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
     
     'API.apps.ApiConfig',
 ]
@@ -123,7 +125,7 @@ USE_TZ = True
 STATIC_ROOT =  os.path.join(BASE_DIR,"static")# f'{BASE_DIR}/static' #*
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR,"techgeeks","static"),  #*
+    os.path.join(BASE_DIR,"backend","static"),  #*
 ]
 
 
@@ -135,7 +137,28 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# cors config   
+
+
+# authentication ============================================
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+}
+
+
+
+
+
+
+
+
+
+
+
+
+# cors config   ===================================================================
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
