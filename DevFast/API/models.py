@@ -62,3 +62,4 @@ class Notification(models.Model):
         )
     costumer = models.ForeignKey(Costumer, null=True, on_delete=models.SET_NULL)
     type = models.CharField(choices=INPUT_CHOICES, max_length=10)
+    
