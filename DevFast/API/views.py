@@ -7,13 +7,12 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from .models import *
 from .serializers import ProgressSerializer , PeymentSerializer, DataReqSerializer , DataResSerializer
 from rest_framework import status
-
-
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import SessionAuthentication,BasicAuthentication,TokenAuthentication
 from rest_framework.decorators import authentication_classes,permission_classes
 
 class GetTheProgress(APIView):
+    # ? tsawer ta3 dare bah sayed yefrah b darou 
     authentication_classes = [TokenAuthentication,SessionAuthentication]
     permission_classes = [IsAuthenticated] 
     def get(self, request ):
@@ -33,8 +32,8 @@ class GetTheProgress(APIView):
 
 
 
-
 class GetTheReq(APIView): 
+    # ? hna neb3atlou wach nahtag (aka rewy ta3 lwra9i)
     authentication_classes = [TokenAuthentication,SessionAuthentication]
     permission_classes = [IsAuthenticated] 
     def get(self, request ):
@@ -45,7 +44,7 @@ class GetTheReq(APIView):
                 print("ProgressView error : ",e)
                 return Response({'error': "not found"},status=404)
                 
-            objects = DataReq.objects.filter(costumer=costumer_id)
+            objects = DataReq.objects.filter(costumer=costumer_id , is_paid=False)
             serializer = DataReqSerializer(objects, many=True)
             serialized_data = serializer.data
             return Response({'date': serialized_data})
@@ -54,13 +53,16 @@ class GetTheReq(APIView):
 
 
 class SendFile(APIView):
+    # ?  hna hna njim nahtaj (aka rewy ta3 lwra9i)
     authentication_classes = [TokenAuthentication,SessionAuthentication]
     permission_classes = [IsAuthenticated] 
     def post(self, request ):
         if request.user.is_authenticated:
             serializer = DataResSerializer(data=request.data)
             if serializer.is_valid():
+                # DataReq.objects.filter(datareq=serializer.datareq) = True ;
                 serializer.save()
+
                 return Response(status=status.HTTP_200_OK)
             else:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -68,6 +70,7 @@ class SendFile(APIView):
             return Response({'error': 'User not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
 
 class GetPymentDate(APIView): 
+    # ?  hna neb3atlou bah y5alesni 🤑 
     authentication_classes = [TokenAuthentication,SessionAuthentication]
     permission_classes = [IsAuthenticated] 
     def get(self, request ):
@@ -78,19 +81,14 @@ class GetPymentDate(APIView):
                 print("ProgressView error : ",e)
                 return Response({'error': "not found"},status=404)
                 
-            objects = Peyment.objects.filter(costumer=costumer_id)
+            objects = Peyment.objects.filter(costumer=costumer_id ,is_paid=False)
             serializer = PeymentSerializer(objects, many=True)
             serialized_data = serializer.data
-            return Response({'date': serialized_data})
+            return Response({'data': serialized_data})
         else:
             return Response({'error': 'User not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
-
-
-
-
- 
 class hello(APIView):
     def get(self,request):
         return JsonResponse({"message":"Hello World"})
