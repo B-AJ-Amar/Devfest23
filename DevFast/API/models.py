@@ -49,7 +49,7 @@ def get_datares_file_path(instance, filename):
 
 class DataRes(models.Model):
     
-    img = models.ImageField(upload_to=get_datares_file_path, null=True, blank=True)
+    url = models.ImageField(upload_to=get_datares_file_path, null=True, blank=True)
     datareq = models.ForeignKey(DataReq, null=True, on_delete=models.SET_NULL)
     date = models.DateTimeField(default=timezone.now,null=True, blank=True)
     
