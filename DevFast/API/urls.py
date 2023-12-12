@@ -19,5 +19,5 @@ from django.urls import path,include
 from .views import hello  , GetTheProgress
 urlpatterns = [
     path('', hello.as_view()),
-    path('WOW', GetTheProgress.as_view()),
+    path('progress/', GetTheProgress.as_view()),
 ]
