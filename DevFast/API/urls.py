@@ -16,10 +16,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include   
-from .views import hello  , GetTheProgress , SendFile
+from .views import hello  , GetTheProgress , SendFile , GetTheReq
 urlpatterns = [
     path('', hello.as_view()),
     path('progress/', GetTheProgress.as_view()),
     path('SendFile/', SendFile.as_view()),
     path('GetPymentDate/', SendFile.as_view()),
+    path('GetTheReq/', GetTheReq.as_view()),
 ]
