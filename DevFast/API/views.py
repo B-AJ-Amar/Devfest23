@@ -5,13 +5,14 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from .models import *
-from .serializers import ProgressSerializer , DataResSerializer
+from .serializers import ProgressSerializer , DataResSerializer,PeymentSerializer
 from rest_framework import status
 
 
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import SessionAuthentication,BasicAuthentication,TokenAuthentication
 from rest_framework.decorators import authentication_classes,permission_classes
+
 class GetTheProgress(APIView):
     # ? tsawer ta3 dare bah sayed yefrah b darou 
     authentication_classes = [TokenAuthentication,SessionAuthentication]
@@ -46,7 +47,7 @@ class GetTheReq(APIView):
                 return Response({'error': "not found"},status=404)
                 
             objects = DataReq.objects.filter(costumer=costumer_id , is_paid=False)
-            serializer = DataReqSerializer(objects, many=True)
+            serializer = DataResSerializer(objects, many=True)
             serialized_data = serializer.data
             return Response({'date': serialized_data})
         else:
