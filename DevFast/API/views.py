@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from .models import *
-from .serializers import ProgressSerializer
+from .serializers import ProgressSerializer , DataResSerializer
 from rest_framework import status
 
 
@@ -32,8 +32,23 @@ class GetTheProgress(APIView):
             return Response({'error': 'User not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
+class SendFile(APIView):
+    authentication_classes = [TokenAuthentication,SessionAuthentication]
+    permission_classes = [IsAuthenticated] 
+    def post(self, request ):
+        if request.user.is_authenticated:
+            serializer = DataResSerializer(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(status=status.HTTP_200_OK)
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({'error': 'User not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
 
 
+
+ 
 class hello(APIView):
     def get(self,request):
         return JsonResponse({"message":"Hello World"})
