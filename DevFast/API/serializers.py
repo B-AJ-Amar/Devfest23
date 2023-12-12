@@ -10,7 +10,7 @@ class CostumerSerializer(serializers.ModelSerializer):
 
 
 class ProgressSerializer(serializers.ModelSerializer):
-    date = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+    date = serializers.DateTimeField(format="%Y-%m-%d")
     url = serializers.SerializerMethodField()
     class Meta:
         model = Progress 
@@ -23,16 +23,14 @@ class ProgressSerializer(serializers.ModelSerializer):
         return f"{base_url}/media/{obj.url}" if obj.url else None
 
 class PeymentSerializer(serializers.ModelSerializer):
+    date = serializers.DateTimeField(format="%Y-%m-%d")
     class Meta:
         model = Peyment 
         fields = "__all__"
 
-class PeymentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Peyment 
-        fields = "__all__"
 
 class DataReqSerializer(serializers.ModelSerializer):
+    date = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
     class Meta: 
         model = DataReq 
         fields = "__all__"

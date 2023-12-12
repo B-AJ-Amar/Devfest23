@@ -58,10 +58,13 @@ class DataRes(models.Model):
 
 class Notification(models.Model):
     INPUT_CHOICES = (
-            ('peyment', 'peyment'),
-            ('progress', 'progress'),
-            ('request','request'),
+            ('0', 'progress'),
+            ('1', 'peyment'),
+            ('2','request'),
         )
     costumer = models.ForeignKey(Costumer, null=True, on_delete=models.SET_NULL)
+    description = models.TextField(null=True,blank=True)
     type = models.CharField(choices=INPUT_CHOICES, max_length=10)
+    is_reded = models.BooleanField(default=False)
+    
     

@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from .models import *
-from .serializers import ProgressSerializer , DataResSerializer,PeymentSerializer
+from .serializers import ProgressSerializer , DataResSerializer,PeymentSerializer,DataReqSerializer
 from rest_framework import status
 
 
@@ -46,8 +46,8 @@ class GetTheReq(APIView):
                 print("ProgressView error : ",e)
                 return Response({'error': "not found"},status=404)
                 
-            objects = DataReq.objects.filter(costumer=costumer_id , is_paid=False)
-            serializer = DataResSerializer(objects, many=True)
+            objects = DataReq.objects.filter(costumer=costumer_id)
+            serializer = DataReqSerializer(objects, many=True)
             serialized_data = serializer.data
             return Response({'date': serialized_data})
         else:

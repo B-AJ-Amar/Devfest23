@@ -16,9 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include   
-from .views import hello  , GetTheProgress,PeymentView
+from .views import hello  , GetTheProgress,GetPymentDate,GetTheReq
 urlpatterns = [
     path('', hello.as_view()),
     path('progress/', GetTheProgress.as_view()),
-    path('payment/', PeymentView.as_view()),
+    path('payment/', GetPymentDate.as_view()),
+    path('requests/', GetTheReq.as_view())
 ]
