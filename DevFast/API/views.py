@@ -12,7 +12,6 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import SessionAuthentication,BasicAuthentication,TokenAuthentication
 from rest_framework.decorators import authentication_classes,permission_classes
-
 class GetTheProgress(APIView):
     # ? tsawer ta3 dare bah sayed yefrah b darou 
     authentication_classes = [TokenAuthentication,SessionAuthentication]
@@ -89,6 +88,7 @@ class GetPymentDate(APIView):
             return Response({'data': serialized_data})
         else:
             return Response({'error': 'User not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
+
 
  
 class hello(APIView):
