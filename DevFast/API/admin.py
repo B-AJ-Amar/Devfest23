@@ -41,7 +41,7 @@ class TicketAdmin(admin.ModelAdmin):
 admin.site.register(Teckit,TicketAdmin)
 
 class PostAdmin(admin.ModelAdmin):
-   list_display = ("costumer","Type", "text","date")
+   list_display = ("costumer","type", "text","date")
    
 admin.site.register(Post,PostAdmin)
 
