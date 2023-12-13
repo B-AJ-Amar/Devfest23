@@ -165,6 +165,19 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 
+REST_FRAMEWORK = {
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '20/min',
+        'user': '60/min'
+    }
+}
+
+
+
 # cors config   ===================================================================
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
