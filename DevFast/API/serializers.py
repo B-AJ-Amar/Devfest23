@@ -10,12 +10,14 @@ class Userserializer(serializers.ModelSerializer):
         
 class CostumerSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
+    rest_price = serializers.SerializerMethodField()
     class Meta:
         model = Costumer
         fields = "__all__"
     def get_user(self, obj):
         return Userserializer(obj.user).data if obj.user else None
-
+    def get_rest_price(self, obj):
+        return obj.rest_price()
 
 class ProgressSerializer(serializers.ModelSerializer):
     date = serializers.DateTimeField(format="%Y-%m-%d")

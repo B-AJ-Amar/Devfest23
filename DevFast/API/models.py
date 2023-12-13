@@ -12,12 +12,19 @@ class Costumer(models.Model):
     phone = models.CharField(max_length=15, null=True,blank=True)
     is_delivered = models.BooleanField(default=False)
     delivery_date = models.DateTimeField(default=None, null=True, blank=True)
+    total_price = models.DecimalField(max_digits=15,decimal_places=2,default=0)
     # address = models.CharField(max_length=100)
     # city = models.CharField(max_length=50)
     # state = models.CharField(max_length=50)
     # zipcode = models.CharField(max_length=10)
     # date_created = models.DateTimeField(auto_now_add=True)
-
+    def rest_price(self):
+        pps = Peyment.objects.filter(costumer=self.id)
+        total = self.total_price
+        for pp in pps:
+            if pp.is_paid:
+                total -= pp.price
+        return total 
 class Notification(models.Model):
  
     costumer = models.ForeignKey(Costumer, null=True, on_delete=models.SET_NULL)
