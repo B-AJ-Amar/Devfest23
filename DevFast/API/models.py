@@ -64,4 +64,23 @@ class Notification(models.Model):
         )
     costumer = models.ForeignKey(Costumer, null=True, on_delete=models.SET_NULL)
     type = models.CharField(choices=INPUT_CHOICES, max_length=10)
-    
+
+
+class Teckit(models.Model):
+    """
+    repost to fix any problems within the apartement 
+    """ 
+    costumer = models.ForeignKey(Costumer, null=True, on_delete=models.SET_NULL)
+    Type = models.CharField(max_length=30) ;
+    text = models.TextField()
+    date = models.DateTimeField(default=timezone.now,null=True, blank=True)
+
+
+class Post(models.Model):
+    """
+    repost to fix any problems within the apartement 
+    """ 
+    costumer = models.ForeignKey(Costumer, null=True, on_delete=models.SET_NULL)
+    Type = models.CharField(max_length=30) ;
+    text = models.TextField()
+    date = models.DateTimeField(default=timezone.now,null=True, blank=True)

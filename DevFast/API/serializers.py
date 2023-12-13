@@ -1,4 +1,4 @@
-from .models import  Costumer , Progress  , Peyment , DataReq ,  Notification , DataRes
+from .models import  Costumer , Progress  , Peyment , DataReq ,  Notification , DataRes , Teckit , Post 
 from rest_framework import serializers
  
 
@@ -38,5 +38,18 @@ class NotificationSerializer(serializers.ModelSerializer):
     class Meta: 
         model = Notification 
         fields = "__all__"
+
+class TeckitSerializer(serializers.ModelSerializer):
+    date = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+    class Meta: 
+        model = Teckit 
+        fields = "__all__"
+class PostSerializer(serializers.ModelSerializer):
+    date = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S")
+    class Meta: 
+        model = Post 
+        fields = "__all__"
+
+
 
  
