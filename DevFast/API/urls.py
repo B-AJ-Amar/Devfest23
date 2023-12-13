@@ -27,4 +27,6 @@ urlpatterns = [
     path('costumer/', CostumerView.as_view()),
     path('ticket/', SendTeckit.as_view()),
     path('post/', SendPost.as_view()),
+    path('posttype/', PostTypeView.as_view()),
+    path('posttype/<int:id>', GetPost.as_view()),
 ]

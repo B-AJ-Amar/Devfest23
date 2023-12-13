@@ -156,7 +156,23 @@ class SendPost(APIView):
                 return Response(status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response({'error': 'User not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
-
+    
+            return Response({'error': 'User not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
+class GetPost(APIView):
+    # ?  function returns a list of notifications for a authenticated user
+    authentication_classes = [TokenAuthentication,SessionAuthentication]
+    permission_classes = [IsAuthenticated] 
+    serializer_class = PostSerializer
+    def get_(self, request,id):
+        if request.user.is_authenticated:
+            
+            posts = Post.objects.filter(type=id)
+            serializer = PostSerializer(posts, many=True)
+            serialized_data = serializer.data
+            return Response({'data': serialized_data})
+                
+        else:
+            return Response({'error': 'User not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
 class SendTeckit(APIView): 
     # ?  hna yeb3atly user lmachakel li 3andou  
     authentication_classes = [TokenAuthentication,SessionAuthentication]
@@ -181,3 +197,12 @@ class hello(APIView):
         return JsonResponse({"message":"Hello World"})
     
 # class Send
+
+
+class PostTypeView(ListAPIView):
+    # ?  function returns a list of notifications for a authenticated user
+    authentication_classes = [TokenAuthentication,SessionAuthentication]
+    permission_classes = [IsAuthenticated] 
+    serializer_class = PostTypeSerializer
+    queryset = PostType.objects.all()
+    

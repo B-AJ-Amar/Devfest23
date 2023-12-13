@@ -44,3 +44,6 @@ class PostAdmin(admin.ModelAdmin):
    list_display = ("costumer","Type", "text","date")
    
 admin.site.register(Post,PostAdmin)
+
+class PostTypeAdmin(admin.ModelAdmin):
+   list_display = ("name",)

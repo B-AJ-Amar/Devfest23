@@ -1,4 +1,4 @@
-from .models import  Costumer , Progress  , Peyment , DataReq ,  Notification , DataRes , Teckit , Post
+from .models import  Costumer , Progress  , Peyment , DataReq ,  Notification , DataRes , Teckit , Post, PostType
 from rest_framework import serializers
 from backend.settings import base_url
 from django.contrib.auth.models import User
@@ -62,4 +62,11 @@ class PostSerializer(serializers.ModelSerializer):
     date = serializers.DateTimeField(format="%Y-%m-%d")
     class Meta: 
         model = Post 
+        fields = "__all__"
+        
+        
+        
+class PostTypeSerializer(serializers.ModelSerializer):
+    class Meta: 
+        model = PostType
         fields = "__all__"

@@ -107,11 +107,20 @@ class Teckit(models.Model):
     date = models.DateTimeField(default=timezone.now,null=True, blank=True)
 
 
+
+class PostType(models.Model):
+    """
+    repost to fix any problems within the apartement 
+    """ 
+    name = models.CharField(max_length=30) 
+    def __str__(self):
+        return self.name
+
 class Post(models.Model):
     """
     repost to fix any problems within the apartement 
     """ 
     costumer = models.ForeignKey(Costumer, null=True, on_delete=models.SET_NULL)
-    Type = models.CharField(max_length=30) ;
+    type = models.ForeignKey(PostType, null=True, on_delete=models.SET_NULL)
     text = models.TextField()
     date = models.DateTimeField(default=timezone.now,null=True, blank=True)
