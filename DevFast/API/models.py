@@ -25,6 +25,8 @@ class Costumer(models.Model):
             if pp.is_paid:
                 total -= pp.price
         return total 
+    def __str__(self):
+        return self.user.username
 class Notification(models.Model):
  
     costumer = models.ForeignKey(Costumer, null=True, on_delete=models.SET_NULL)

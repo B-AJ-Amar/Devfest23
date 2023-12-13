@@ -83,7 +83,7 @@ class GetPymentDate(APIView):
                 print("ProgressView error : ",e)
                 return Response({'error': "not found"},status=404)
                 
-            objects = Peyment.objects.filter(costumer=costumer_id ,is_paid=False)
+            objects = Peyment.objects.filter(costumer=costumer_id )
             serializer = PeymentSerializer(objects, many=True)
             serialized_data = serializer.data
             return Response({'data': serialized_data})

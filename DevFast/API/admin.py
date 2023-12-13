@@ -47,3 +47,5 @@ admin.site.register(Post,PostAdmin)
 
 class PostTypeAdmin(admin.ModelAdmin):
    list_display = ("name",)
+   
+admin.site.register(PostType,PostTypeAdmin)
