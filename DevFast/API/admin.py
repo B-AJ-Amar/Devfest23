@@ -34,3 +34,13 @@ class NotificationAdmin(admin.ModelAdmin):
    
 
 admin.site.register(Notification)
+
+class TicketAdmin(admin.ModelAdmin):
+   list_display = ("costumer", "Type","text","date")
+
+admin.site.register(Teckit,TicketAdmin)
+
+class PostAdmin(admin.ModelAdmin):
+   list_display = ("costumer","Type", "text","date")
+   
+admin.site.register(Post,PostAdmin)

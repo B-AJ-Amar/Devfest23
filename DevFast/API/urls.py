@@ -25,4 +25,6 @@ urlpatterns = [
     path('notifications/', NotificationView.as_view()),
     path('notifications/<int:id>', NotificationPostView.as_view()),
     path('costumer/', CostumerView.as_view()),
+    path('ticket/', SendTeckit.as_view()),
+    path('post/', SendPost.as_view()),
 ]
