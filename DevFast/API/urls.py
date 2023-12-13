@@ -16,10 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include   
-from .views import hello  , GetTheProgress,GetPymentDate,GetTheReq
+from .views import *
 urlpatterns = [
     path('', hello.as_view()),
     path('progress/', GetTheProgress.as_view()),
     path('payment/', GetPymentDate.as_view()),
-    path('requests/', GetTheReq.as_view())
+    path('requests/', GetTheReq.as_view()),
+    path('notifications/', NotificationView.as_view()),
+    path('notifications/<int:id>', NotificationPostView.as_view()),
+    path('costumer/', CostumerView.as_view()),
 ]

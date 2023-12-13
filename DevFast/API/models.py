@@ -18,8 +18,17 @@ class Costumer(models.Model):
     # zipcode = models.CharField(max_length=10)
     # date_created = models.DateTimeField(auto_now_add=True)
 
+class Notification(models.Model):
+ 
+    costumer = models.ForeignKey(Costumer, null=True, on_delete=models.SET_NULL)
+    title = models.CharField(max_length=50,default="No Title",null=True,blank=True)
+    description = models.TextField(null=True,blank=True)
+    type = models.IntegerField(default=0)
+    is_reded = models.BooleanField(default=False)
+    
+    
     def __str__(self):
-        return f'{self.user.first_name} {self.user.last_name}'
+        return f'{self.costumer} {self.type}'
 
 
 def get_progress_image_path(instance, filename):
@@ -27,24 +36,55 @@ def get_progress_image_path(instance, filename):
 
 class Progress(models.Model):
     costumer = models.ForeignKey(Costumer, null=True, on_delete=models.SET_NULL,related_name='customer')
-    url = models.ImageField(upload_to=get_progress_image_path, null=True, blank=True)
+    url = models.ImageField(upload_to=get_progress_image_path,default="default.jpg", null=True, blank=True)
     date = models.DateTimeField(default=timezone.now,null=True, blank=True)
     description = models.TextField(null=True,blank=True)
-    
+    notification = models.ForeignKey(Notification, null=True,blank=True, on_delete=models.SET_NULL)
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        INPUT_CHOICES = ( 'progress', 'peyment','request')
+        
+        if self.notification == None:
+            note = Notification.objects.create(costumer=self.costumer,description=self.description,type=0,title=INPUT_CHOICES[0])
+            note.save()
+            self.notification = note
+            self.save()
+        # if change:
+            
     
 class Peyment(models.Model):
     costumer = models.ForeignKey(Costumer, null=True, on_delete=models.SET_NULL)
     price = models.DecimalField(max_digits=15,decimal_places=2)
     is_paid = models.BooleanField(default=False)
     date = models.DateTimeField(default=timezone.now,null=True, blank=True)
-    
+    notification = models.ForeignKey(Notification, null=True,blank=True, on_delete=models.SET_NULL)
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        INPUT_CHOICES = ( 'progress', 'peyment','request')
+        
+        if self.notification == None:
+            note = Notification.objects.create(costumer=self.costumer,description=f"{self.price}",type=1,title=INPUT_CHOICES[1])
+            note.save()
+            self.notification = note
+            self.save()
+        # if change:
     
 class DataReq(models.Model):
     costumer = models.ForeignKey(Costumer, null=True, on_delete=models.SET_NULL)
     date = models.DateTimeField(default=timezone.now,null=True, blank=True)
     text = models.TextField(null=True,blank=True)
     is_finished = models.BooleanField(default=False)
-
+    notification = models.ForeignKey(Notification, null=True,blank=True, on_delete=models.SET_NULL)
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        INPUT_CHOICES = ( 'progress', 'peyment','request')
+        
+        if self.notification == None:
+            note = Notification.objects.create(costumer=self.costumer,description=self.text,type=2,title=INPUT_CHOICES[2])
+            note.save()
+            self.notification = note
+            self.save()
+        # if change:
 
 def get_datares_file_path(instance, filename):
     return os.path.join(f'costumer-{instance.costumer.id}', f'req-{instance.id}', str(filename))
@@ -54,19 +94,8 @@ class DataRes(models.Model):
     url = models.ImageField(upload_to=get_datares_file_path, null=True, blank=True)
     datareq = models.ForeignKey(DataReq, null=True, on_delete=models.SET_NULL)
     date = models.DateTimeField(default=timezone.now,null=True, blank=True)
-    
 
-class Notification(models.Model):
-    INPUT_CHOICES = (
-            ('0', 'progress'),
-            ('1', 'peyment'),
-            ('2','request'),
-        )
-    costumer = models.ForeignKey(Costumer, null=True, on_delete=models.SET_NULL)
-    description = models.TextField(null=True,blank=True)
-    type = models.CharField(choices=INPUT_CHOICES, max_length=10)
-    is_reded = models.BooleanField(default=False)
-    
+
 
 class Teckit(models.Model):
     """

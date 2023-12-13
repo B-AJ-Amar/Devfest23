@@ -1,12 +1,20 @@
 from .models import  Costumer , Progress  , Peyment , DataReq ,  Notification , DataRes , Teckit , Post
 from rest_framework import serializers
 from backend.settings import base_url
+from django.contrib.auth.models import User
 
-
+class Userserializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = "__all__"
+        
 class CostumerSerializer(serializers.ModelSerializer):
+    user = serializers.SerializerMethodField()
     class Meta:
         model = Costumer
         fields = "__all__"
+    def get_user(self, obj):
+        return Userserializer(obj.user).data if obj.user else None
 
 
 class ProgressSerializer(serializers.ModelSerializer):
