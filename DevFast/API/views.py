@@ -163,7 +163,7 @@ class GetPost(APIView):
     authentication_classes = [TokenAuthentication,SessionAuthentication]
     permission_classes = [IsAuthenticated] 
     serializer_class = PostSerializer
-    def get_(self, request,id):
+    def get(self, request,id):
         if request.user.is_authenticated:
             
             posts = Post.objects.filter(type=id)
