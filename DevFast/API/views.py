@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.parsers import MultiPartParser, FormParser
 from .models import *
-from .serializers import ProgressSerializer , DataResSerializer,PeymentSerializer,DataReqSerializer
+from .serializers import *
 from rest_framework import status
 
 
@@ -90,10 +90,54 @@ class GetPymentDate(APIView):
         else:
             return Response({'error': 'User not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
 
+class NotificationView(ListAPIView):
+    # ?  hna neb3atlou bah y5alesni 🤑 
+    authentication_classes = [TokenAuthentication,SessionAuthentication]
+    permission_classes = [IsAuthenticated] 
+    serializer_class = NotificationSerializer
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            try:
+                costumer_id = Costumer.objects.get(user=self.request.user).id
+            except Exception as e:
+                print("ProgressView error : ",e)
+                return Response({'error': "not found"},status=404)
+                
+            objects = Notification.objects.filter(costumer=costumer_id)
+            return objects
+        else:
+            return Response({'error': 'User not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
 
- 
+class NotificationPostView(APIView):
+    def post(self, request,id):
+        if request.user.is_authenticated:
+            try:
+                notification = Notification.objects.get(id=id)
+            except Exception as e:
+                print("ProgressView error : ",e)
+                return Response({'error': "not found"},status=404)
+            notification.is_reded = True
+            notification.save()
+            return Response(status=status.HTTP_200_OK)
+        else:
+            return Response({'error': 'User not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
 class hello(APIView):
     def get(self,request):
         return JsonResponse({"message":"Hello World"})
     
 # class Send
+class CostumerView(APIView):
+    def get(self, request):
+        if request.user.is_authenticated:
+            try:
+                costumer_id = Costumer.objects.get(user=request.user).id
+            except Exception as e:
+                print("ProgressView error : ",e)
+                return Response({'error': "not found"},status=404)
+                
+            objects = Costumer.objects.get(id=costumer_id)
+            serializer = CostumerSerializer(objects)
+            serialized_data = serializer.data
+            return Response({'data': serialized_data})
+        else:
+            return Response({'error': 'User not authenticated'}, status=status.HTTP_401_UNAUTHORIZED)
