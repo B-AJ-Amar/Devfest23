@@ -111,7 +111,8 @@ class Teckit(models.Model):
     repost to fix any problems within the apartement 
     """ 
     costumer = models.ForeignKey(Costumer, null=True, on_delete=models.SET_NULL)
-    Type = models.CharField(max_length=30) ;
+    Type = models.CharField(max_length=30) 
+    title = models.CharField(max_length=30,default="No Title")
     text = models.TextField()
     date = models.DateTimeField(default=timezone.now,null=True, blank=True)
 

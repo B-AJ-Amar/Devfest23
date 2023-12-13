@@ -62,6 +62,7 @@ class TeckitSerializer(serializers.ModelSerializer):
         fields = "__all__"
 class PostSerializer(serializers.ModelSerializer):
     date = serializers.DateTimeField(format="%Y-%m-%d")
+    costumer = CostumerSerializer(read_only = True)
     class Meta: 
         model = Post 
         fields = "__all__"
